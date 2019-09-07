@@ -26,8 +26,29 @@ Intel Core i5-3210M CPU 2.50GHz (Ivy Bridge), 1 CPU, 4 logical and 2 physical co
 |         UseSpan1 |  6.878 us | 0.0590 us | 0.0552 us |
 |         UseSpan2 | 10.573 us | 0.1047 us | 0.0979 us |
 
+    
+BenchmarkDotNet=v0.11.5, OS=Windows 10.0.18362
+Intel Core i5-3210M CPU 2.50GHz (Ivy Bridge), 1 CPU, 4 logical and 2 physical cores
+.NET Core SDK=2.1.801
+  [Host]     : .NET Core 2.1.12 (CoreCLR 4.6.27817.01, CoreFX 4.6.27818.01), 64bit RyuJIT  [AttachedDebugger]
+  DefaultJob : .NET Core 2.1.12 (CoreCLR 4.6.27817.01, CoreFX 4.6.27818.01), 64bit RyuJIT
+
+
+|           Method |      Mean |     Error |    StdDev |    Median |
+|----------------- |----------:|----------:|----------:|----------:|
+|     UseArrayFor1 |  7.434 us | 0.1434 us | 0.1408 us |  7.410 us |
+|     UseArrayFor2 |  6.910 us | 0.0655 us | 0.0613 us |  6.915 us |
+| UseArrayForEach1 |  6.940 us | 0.1222 us | 0.1083 us |  6.933 us |
+| UseArrayForEach2 |  6.891 us | 0.0560 us | 0.0497 us |  6.900 us |
+|      UseListFor1 | 65.771 us | 1.2033 us | 1.1256 us | 65.649 us |
+|      UseListFor2 | 94.395 us | 1.7482 us | 1.5497 us | 94.161 us |
+|  UseListForEach1 | 90.300 us | 1.7951 us | 4.8531 us | 87.877 us |
+|         UseSpan1 |  6.921 us | 0.0754 us | 0.0705 us |  6.940 us |
+|         UseSpan2 | 10.696 us | 0.2059 us | 0.2887 us | 10.577 us |
 #endif
 
+    //[DryJob]        // 動作確認用の実行
+    //[ShortRunJob]   // 簡易測定
     public class SomeTest
     {
         private readonly int[] _array;
@@ -57,8 +78,7 @@ Intel Core i5-3210M CPU 2.50GHz (Ivy Bridge), 1 CPU, 4 logical and 2 physical co
         }
 
         /// <summary>
-        /// 同率三位
-        /// ループ外でローカル変数にコピーした方がちょい早く最速クラス
+        /// ループ外でローカル変数にコピーした方がちょい早く最速
         /// Lengthのチェックが必要なくなったおかげと思われる。IL見てないから知らんけど
         /// </summary>
         /// <returns></returns>
@@ -75,8 +95,7 @@ Intel Core i5-3210M CPU 2.50GHz (Ivy Bridge), 1 CPU, 4 logical and 2 physical co
         }
 
         /// <summary>
-        /// 一位
-        /// 一応最速(UseArrayFor2とほぼ同等で有意差じゃないかも)
+        /// 最速(UseArrayFor2とほぼ同等で有意差じゃないかも)
         /// </summary>
         /// <returns></returns>
         [Benchmark]
@@ -92,8 +111,7 @@ Intel Core i5-3210M CPU 2.50GHz (Ivy Bridge), 1 CPU, 4 logical and 2 physical co
         }
 
         /// <summary>
-        /// 二位
-        /// UseArrayForEach1よりローカルコピーある分だけちょい遅いっぽい
+        /// 最速(UseArrayForEach1よりローカルコピーある分だけちょい遅いっぽい)
         /// </summary>
         /// <returns></returns>
         [Benchmark]
@@ -165,8 +183,8 @@ Intel Core i5-3210M CPU 2.50GHz (Ivy Bridge), 1 CPU, 4 logical and 2 physical co
         public int UseSpan1()
         {
             var accum = 0;
-
-            foreach (var i in ArraySpan)
+            var span = ArraySpan;
+            foreach (var i in span)
             {
                 accum += i;
             }
