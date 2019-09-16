@@ -1,0 +1,30 @@
+﻿using BenchmarkDotNet.Running;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+
+namespace Benchmark2
+{
+    /// <summary>
+    /// http://engineering.grani.jp/entry/2017/07/28/145035
+    /// </summary>
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            // Switcherは複数ベンチマークを作りたい場合ベンリ。
+            var switcher = new BenchmarkSwitcher(
+                new[]
+                {
+                    typeof(DictionaryBenchmark),
+                });
+
+            // 今回は一個だけなのでSwitcherは不要ですが。
+            args = new string[] { "0" };
+
+            switcher.Run(args); // 走らせる
+        }
+    }
+
+}
