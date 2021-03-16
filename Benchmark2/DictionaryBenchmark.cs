@@ -13,8 +13,8 @@ namespace Benchmark2
     {
         private string key;
         private byte[] keybs;
-        private readonly Dictionary<string, int> dictStringKey = new Dictionary<string, int>();
-        private readonly Dictionary<byte[], int> dictByteArrayKey = new Dictionary<byte[], int>();
+        private readonly Dictionary<string, int> dictStringKey = new();
+        private readonly Dictionary<byte[], int> dictByteArrayKey = new();
 
         [GlobalSetup]
         public void Setup()

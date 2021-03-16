@@ -5,12 +5,13 @@ using System.Linq;
 
 namespace BenchmarkDotNetSample
 {
+#if false
     //[ShortRunJob]
-    public class SomeTest
+    public class StrHexConvertTest
     {
         private readonly string[] _sourceArray;
 
-        public SomeTest()
+        public StrHexConvertTest()
         {
             _sourceArray = Enumerable.Range(0, Int16.MaxValue).Select(x => x.ToString("x4")).ToArray();
         }
@@ -47,4 +48,5 @@ namespace BenchmarkDotNetSample
         }
 
     }
+#endif
 }
