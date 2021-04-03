@@ -3,15 +3,17 @@ using System;
 using System.Globalization;
 using System.Linq;
 
+// 16進数文字列 を 数値に変換 → int.Parse() が高速
 namespace BenchmarkDotNetSample
 {
 #if false
-    //[ShortRunJob]
-    public class StrHexConvertTest
+    [ShortRunJob]
+    public class StrHexConvert
     {
-        private readonly string[] _sourceArray;
+        private string[] _sourceArray;
 
-        public StrHexConvertTest()
+        [GlobalSetup]
+        public void Setup()
         {
             _sourceArray = Enumerable.Range(0, Int16.MaxValue).Select(x => x.ToString("x4")).ToArray();
         }

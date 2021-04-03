@@ -2,25 +2,17 @@
 using System;
 using System.Runtime.InteropServices;
 
+// メモリを確保して、構造体コピー → UseUnsafe が高速
 namespace BenchmarkDotNetSample
 {
 #if false
-    static class MyStructTestParam
-    {
-        public const int SIZE = 256;
-    }
-
-    [StructLayout(LayoutKind.Sequential, Size = MyStructTestParam.SIZE)]
-    unsafe struct MyStructTestStruct
-    {
-        public fixed byte fixedBuffer[MyStructTestParam.SIZE];
-    }
-
-    public class StructTest
+    [ShortRunJob]
+    public class StructAllocCopy
     {
         private MyStructTestStruct _data;
 
-        public StructTest()
+        [GlobalSetup]
+        public void Setup()
         {
             unsafe
             {
@@ -86,7 +78,7 @@ namespace BenchmarkDotNetSample
         public byte[] UseUnsafe()
         {
             return ToByteArray(_data);
-    
+
             static byte[] ToByteArray<T>(T data) where T : unmanaged
             {
                 var size = Marshal.SizeOf<T>();
@@ -103,6 +95,17 @@ namespace BenchmarkDotNetSample
             }
         }
 
+    }
+
+    static class MyStructTestParam
+    {
+        public const int SIZE = 256;
+    }
+
+    [StructLayout(LayoutKind.Sequential, Size = MyStructTestParam.SIZE)]
+    unsafe struct MyStructTestStruct
+    {
+        public fixed byte fixedBuffer[MyStructTestParam.SIZE];
     }
 #endif
 }

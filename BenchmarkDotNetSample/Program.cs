@@ -14,7 +14,7 @@ namespace BenchmarkDotNetSample
     {
         static void Main(string[] args)
         {
-            BenchmarkRunner.Run<SomeTest>();
+            BenchmarkRunner.Run<SearchBinPatternFromFile>();
         }
     }
 }

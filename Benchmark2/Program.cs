@@ -1,14 +1,9 @@
 ﻿using BenchmarkDotNet.Running;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 
 namespace Benchmark2
 {
-    /// <summary>
-    /// http://engineering.grani.jp/entry/2017/07/28/145035
-    /// </summary>
+    // http://engineering.grani.jp/entry/2017/07/28/145035
     class Program
     {
         static void Main(string[] args)
@@ -23,7 +18,7 @@ namespace Benchmark2
             // 今回は一個だけなのでSwitcherは不要ですが。
             args = new string[] { "0" };
 
-            switcher.Run(args); // 走らせる
+            switcher.Run(args);
         }
     }
 

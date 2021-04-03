@@ -7,7 +7,6 @@ using System.Text;
 
 namespace Benchmark2
 {
-    // ベンチマーク本体
     [Config(typeof(BenchmarkConfig))]
     public class DictionaryBenchmark
     {

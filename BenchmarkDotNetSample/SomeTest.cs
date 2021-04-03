@@ -5,46 +5,34 @@ using System.Linq;
 
 namespace BenchmarkDotNetSample
 {
-    //[ShortRunJob]
+    [ShortRunJob]
     public class SomeTest
     {
-        private readonly string[] _sourceArray;
+        [Params(10, 100, 1000)]
+        public int N;
 
-        public SomeTest()
+        private int[] data;
+
+        [GlobalSetup]
+        public void GlobalSetup()
         {
-            _sourceArray = Enumerable.Range(0, Int16.MaxValue).Select(x => x.ToString("x4")).ToArray();
+            data = new int[N]; // executed once per each N value
         }
 
         [Benchmark(Baseline = true)]
-        public void UseConvert()
+        public void Bench0()
         {
-            long sum = 0;
-            foreach (var s in _sourceArray)
-            {
-                sum += Convert.ToInt32(s, 16);
-            }
         }
 
         [Benchmark]
-        public void UseParse()
+        public void Bench1()
         {
-            long sum = 0;
-            foreach (var s in _sourceArray)
-            {
-                sum += int.Parse(s, NumberStyles.HexNumber, CultureInfo.InvariantCulture);
-            }
         }
 
-        [Benchmark]
-        public void UseTryParse()
+        [GlobalCleanup]
+        public void GlobalCleanup()
         {
-            long sum = 0;
-            foreach (var s in _sourceArray)
-            {
-                if (int.TryParse(s, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var i))
-                    sum += i;
-            }
+            // Disposing logic
         }
-
     }
 }
