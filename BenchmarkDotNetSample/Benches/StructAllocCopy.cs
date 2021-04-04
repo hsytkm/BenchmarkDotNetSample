@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 // メモリを確保して、構造体コピー → UseUnsafe が高速
 namespace BenchmarkDotNetSample
 {
-#if false
+#if true
     [ShortRunJob]
     public class StructAllocCopy
     {

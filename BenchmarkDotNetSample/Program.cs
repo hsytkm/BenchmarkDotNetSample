@@ -14,7 +14,8 @@ namespace BenchmarkDotNetSample
     {
         static void Main(string[] args)
         {
-            BenchmarkRunner.Run<SearchBinPatternFromFile>();
+            //BenchmarkRunner.Run<SearchBinPatternFromFile>();
+            BenchmarkRunner.Run<StrHexConvert>();
         }
     }
 }

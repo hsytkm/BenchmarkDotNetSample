@@ -1,17 +1,31 @@
 ﻿using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Configs;
+using BenchmarkDotNet.Diagnosers;
+using BenchmarkDotNet.Exporters;
+using BenchmarkDotNet.Jobs;
 using System;
-using System.Globalization;
-using System.Linq;
 
 namespace BenchmarkDotNetSample
 {
-    [ShortRunJob]
+    public class SomeTestConfig : ManualConfig
+    {
+        public SomeTestConfig()
+        {
+            AddExporter(MarkdownExporter.GitHub);
+            AddDiagnoser(MemoryDiagnoser.Default);
+
+            // ShortRunは LaunchCount=1  TargetCount=3 WarmupCount = 3 のショートカット
+            AddJob(Job.ShortRun);
+        }
+    }
+
+    [Config(typeof(SomeTestConfig))]
     public class SomeTest
     {
         [Params(10, 100, 1000)]
         public int N;
 
-        private int[] data;
+        private int[]? data;
 
         [GlobalSetup]
         public void GlobalSetup()
